@@ -1,6 +1,5 @@
 import pygame
 import random
-import copy
 from scipy.spatial import distance
 
 M,N,grid_size=20,20,20
@@ -52,7 +51,7 @@ def prediction():
     global action,blocks
     x,y=Snake[0][0],Snake[0][1]
     [t,r,b,l] =[(x,y-1),(x+1,y),(x,y+1),(x-1,y)]
-    block=[0 if (i not in grids or i in Snake) else 1 for i in [t,r,b,l]]
+    block=[0 if (i not in grids or i in Snake[:-1]) else 1 for i in [t,r,b,l]]
     dist=[distance.euclidean(i, Food) for i in [t,r,b,l]]
     op=[dist[i] if block[i]==1 else 100 for i in range(4)]
     if sum(block)==2 and len(Snake) !=1:

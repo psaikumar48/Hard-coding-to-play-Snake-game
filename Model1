@@ -20,14 +20,14 @@ def display():
     pygame.display.update()
 def update_snake():
     global snake_tail,snake_head,snake_body,right_label
-    x,y=Snake[0][0],Snake[0][1]
-    if action == 'Right' :
+    (x,y)=Snake[0]
+    if action == 'Right':
         Snake.insert(0,(x+1,y))
-    elif action == 'Left' :
+    elif action == 'Left':
         Snake.insert(0,(x-1,y))
-    elif action == 'Top' :
+    elif action == 'Top':
         Snake.insert(0,(x,y-1))
-    elif action == 'Bottum' :
+    elif action == 'Bottum':
         Snake.insert(0,(x,y+1))
     snake_tail=Snake.pop()
     snake_head=Snake[0]

@@ -2,7 +2,7 @@ import pygame
 import random
 from scipy.spatial import distance
 
-M,N,grid_size=20,20,20
+M,N,grid_size=20,15,20
 grids=[(i,j) for i in range(M) for j in range(N)]
 Actions=['Top','Right','Bottum','Left']
 Episode,High_score,snake_wait_time= 1,0,0
@@ -19,7 +19,7 @@ def display():
     pygame.draw.rect(screen,(0,255,0), (Food[0]*grid_size,Food[1]*grid_size,grid_size,grid_size))
     pygame.display.update()
 def update_snake():
-    global snake_tail,snake_head,snake_body,right_label
+    global snake_tail,snake_head,snake_body
     (x,y)=Snake[0]
     if action == 'Right':
         Snake.insert(0,(x+1,y))
@@ -31,17 +31,15 @@ def update_snake():
         Snake.insert(0,(x,y+1))
     snake_tail=Snake.pop()
     snake_head=Snake[0]
-    snake_body=Snake[1:-1]
+    snake_body=Snake[1:]
     display()
 def prediction():
     global action
     (x,y)=Snake[0]
     [r,l,t,b]=[(x+1,y),(x-1,y),(x,y-1),(x,y+1)]
-    block=[0 if (i not in grids or i in Snake[:-1]) else 1 for i in [t,r,b,l]]
-    dist=[distance.euclidean(i,Food) for i in [t,r,b,l]]   
-    op=[dist[i] if block[i]==1 else 100 for i in range(4)]
-    right_label=op.index(min(op))
-    action=Actions[right_label]
+    block=[0 if (i not in grids or i in Snake) else 1 for i in [t,r,b,l]]
+    dist=[1995 if block[i]==0 else distance.euclidean([t,r,b,l][i],Food) for i in range(4)]
+    action=Actions[dist.index(min(dist))]
 
 mloop=True
 while mloop:
